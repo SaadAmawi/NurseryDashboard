@@ -7,7 +7,7 @@ function HomePage() {
     <>
     <Sidebar/>
     <TopBar/>
-    <div className='main'>hello</div>
+    <div className='main'></div>
     </>
   )
 }

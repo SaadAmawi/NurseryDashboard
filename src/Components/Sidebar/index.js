@@ -3,7 +3,8 @@ import { Link, NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './index.scss'
 import { useState } from 'react'
-
+import placeholder from '../../assets/images/placeholder.png'
+import small from '../../assets/images/smallPlace.png'
 // import {
 //     faLinkedin,
 //     faGithub,
@@ -17,7 +18,10 @@ import {
     faGears,
     faChalkboardTeacher,
     faChartLine,
-    faSchool
+    faSchool,
+    faChevronRight,
+    faRightFromBracket
+    
   } from '@fortawesome/free-solid-svg-icons'
 
 function Sidebar() {
@@ -27,9 +31,13 @@ function Sidebar() {
   return (
 
 <div className={extendSidebar?'extended-nav':'nav-bar'}>
-<Link className="logo" to="/" onClick={()=>showbutton(false)}>
+<div className="logo" >
+  <img src={placeholder} alt="Logo" className='memoreyezLogo' />
+  <button className='buttons' onClick={() => setExtendSidebar(true)}>
+  <FontAwesomeIcon  icon={faBars} color="black" />
+  </button>
 
-      </Link>
+      </div>
 
 <nav >
   
@@ -48,6 +56,19 @@ function Sidebar() {
   
     
     </nav>
+    <button className="signOut"> <FontAwesomeIcon icon={faRightFromBracket}  /></button>
+    <ul className="collapesed">
+    <li>
+    <div className="logoSmall" >
+  <img src={small} alt="Logo" className='memoreyezLogo' />
+  <button className='buttons' onClick={() => setExtendSidebar(false)}>
+  <FontAwesomeIcon  icon={faChevronRight} color="black" />
+  </button>
+
+      </div>
+       
+    </li>
+</ul>
     {/* <FontAwesomeIcon 
           onClick={() => setExtendSidebar(false)}
           icon={faClose}
