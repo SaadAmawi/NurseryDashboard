@@ -6,7 +6,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
-    background-color: rgba(240,242,245,255);;
+    background-color: rgba(240,242,245,255);
     transition: 0.3s ease-out;
     padding-left: 140px; // Adjust this value based on your expanded sidebar width
     animation: slideInDown 0.9s 0s;
@@ -63,7 +63,7 @@ li{
     background-color: transparent;
     border: none;
     font-size: 17px;
-    color: grey;
+    color: rgb(103, 103, 103);
     transition: all 0.3s ease-in-out;
 
     &:hover{
@@ -75,7 +75,7 @@ li{
 .input{
     background-color: rgba(240,242,245,255);;
     border-radius: 4px;
-    border: 1px solid rgba(172, 172, 172, 0.404);
+    border: 1px solid rgba(99, 99, 99, 0.662);
     height: 30px;
     padding: 7px;
 }

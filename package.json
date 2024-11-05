@@ -14,6 +14,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "animate.css": "^4.1.1",
+    "dashboardnasr": "file:",
     "i": "^0.3.7",
     "loaders.css": "^0.1.2",
     "mdb-react-ui-kit": "^9.0.0",

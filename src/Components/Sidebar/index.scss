@@ -1,6 +1,6 @@
 .extended-nav {
   background: rgb(255, 255, 255);
-  width: 95px;
+  width: 115px;
   height: 96%;
   position: absolute;
   top: 14px;
@@ -95,7 +95,19 @@
         content: 'CONTACT';
       }
     }
-
+    
+    a.termlyReport-link {
+      &:after {
+        white-space:pre;
+        content: 'Termly PR';
+      }
+    }
+    a.weeklyReport-link {
+      &:after {
+        white-space:pre;
+        content: 'Weekly PR';
+      }
+    }
     a.active {
       svg {
         color: #00000073;
@@ -166,16 +178,23 @@
 
     img {
       display: block;
-      width: 30px;
+      width: 70px;
     
       height: auto;
 
     
     }
   }
+
+  .break{
+    display: none;
+    transition: all 2.5s ease-in-out;
+
+
+  }
   }
 .nav-bar {
-  background: rgb(255, 255, 255);
+  background: rgb(243, 243, 243);
   width: 240px;
   height: 96%;
   position: absolute;
@@ -190,33 +209,42 @@
   border-radius: 9px;
   // animation: slideInLeft 0.9s 0s;
   // animation-fill-mode: forwards;
-
-
+ 
+ 
   nav {
     display: block;
-    text-align: center;
+    text-align: left;
     position: absolute;
     height: 210px;
-    top: 12%;
-    width: 30%;
-
+    top: 15%;
+    width: 100%;
     
-
+    
+    
     a {
+      padding-left: 10px;
       font-size: 22px;
-      color: #4d4d4e;
+      color: #000000;
       display: block;
       line-height: 51px;
       height: 51px;
       position: relative;
       text-decoration: none;
+      
 
       i {
 
       }
 
       &:hover {
-        color: #000000;
+        background-color: rgba(127, 127, 127, 0.242);
+      // border-radius: 5%;
+      // margin: 0px 3px;
+      -webkit-box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+      -moz-box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+      box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+
+
         svg {
           
           opacity: 1;
@@ -238,7 +266,7 @@
         font-weight: bold;
         font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
         text-align: left;
-        margin-left: 70px;
+        margin-left: 55px;
         opacity: 100%;
         -webkit-transition: all 0.5s ease-in-out;
         transition: all 0.3s ease-in-out;
@@ -270,24 +298,35 @@
       }
     }
 
-    a.account-link {
+    a.termlyReport-link {
       &:after {
-        content: 'ACCOUNT';
+        white-space:pre;
+        content: 'Termly Progress Report';
       }
     }
-    a.settings-link {
+    a.weeklyReport-link {
       &:after {
-        content: 'SETTINGS';
+        white-space:pre;
+        content: 'Weekly Progress Report';
       }
     }
 
     a.active {
+      // border: 2px solid black;
+      background-color: rgba(194, 194, 194, 0.242);
+      border-radius: 5%;
+      margin: 6px 3px;
+      -webkit-box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+      -moz-box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+      box-shadow: 0px 0px 4px -1px rgba(71,71,71,1);
+
       svg {
-        color: #00000073;
+        color: #010300c6;
       }
     }
     
   }
+
   .signOut{
     position: absolute;
     bottom: 2%;
@@ -315,6 +354,25 @@
     font-size: 2px
   }
   
+  .break{
+    width: 240px;
+    margin-top: 20px;
+    transition: all 2.5s ease-in-out;
+
+    // margin-bottom: 20px;
+    h1{
+      text-align: center;
+      font-size: 15px;
+      color: #af5c63;
+      margin-bottom: 0;
+    }
+    .LineBreak{
+      width: 95%;
+      height: 1px;
+      background-color: #af5c63;
+     
+    }
+  }
 
  }
   .logo {
@@ -327,7 +385,7 @@
 
     img {
       display: block;
-      width: 120px;
+      width: 160px;
       padding: 9px 0px;
       height: auto;
 

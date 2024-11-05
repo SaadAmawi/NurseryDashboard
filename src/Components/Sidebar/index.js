@@ -3,8 +3,9 @@ import { Link, NavLink } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './index.scss'
 import { useState } from 'react'
-import placeholder from '../../assets/images/placeholder.png'
-import small from '../../assets/images/smallPlace.png'
+import placeholder from '../../assets/images/knowledgeroomlogo.png'
+import TermlyReports from './termly.pdf'
+import small from '../../assets/images/knowledgeroomlogo.png'
 import 'animate.css';
 import {
     faEnvelope,
@@ -16,9 +17,10 @@ import {
     faChartLine,
     faSchool,
     faChevronRight,
-    faRightFromBracket
+    faRightFromBracket,
+    faFileLines,
+    faCalendarWeek,
 } from '@fortawesome/free-solid-svg-icons'
-import { DNA } from 'react-loader-spinner'
 
 function Sidebar({ onSidebarChange }) {
     const [button, showbutton] = useState(false);
@@ -39,18 +41,33 @@ function Sidebar({ onSidebarChange }) {
                 </button>
             </div>
 
+            <div className="break">
+                    <h1>Nav</h1>
+                <hr className="LineBreak"/>
+                </div>
+
             <nav>
                 <NavLink exact="true" activeclassname="active" className="poop" to="/" onClick={() => showbutton(false)}>
-                    <FontAwesomeIcon icon={faChartLine} color="black" />
+                    <FontAwesomeIcon icon={faChartLine}  />
                 </NavLink>
                 <NavLink exact="true" activeclassname="active" className="classroom-link" to="/classrooms" onClick={() => showbutton(false)}>
-                    <FontAwesomeIcon icon={faChalkboardTeacher} color="black" />
+                    <FontAwesomeIcon icon={faChalkboardTeacher}  />
                 </NavLink>
                 <NavLink exact="true" activeclassname="active" className="students-link" to="/students" onClick={() => showbutton(false)}>
-                    <FontAwesomeIcon icon={faSchool} color="black" />
+                    <FontAwesomeIcon icon={faSchool}  />
                 </NavLink>
                 <NavLink exact="true" activeclassname="active" className="contact-link" to="/contact" onClick={() => showbutton(false)}>
-                    <FontAwesomeIcon icon={faEnvelope} color="black" />
+                    <FontAwesomeIcon icon={faEnvelope}  />
+                </NavLink>
+                <div className="break">
+                    <h1>Reports</h1>
+                <hr className="LineBreak"/>
+                </div>
+                <NavLink exact="true" activeclassname="active" className="termlyReport-link" to={TermlyReports} target='_blank' onClick={()=>showbutton(false)}>
+                <FontAwesomeIcon icon={faFileLines}  /> 
+                </NavLink>
+                <NavLink exact="true" activeclassname="active" className="weeklyReport-link" to={TermlyReports} target='_blank' onClick={()=>showbutton(false)}>
+                <FontAwesomeIcon icon={faCalendarWeek}  /> 
                 </NavLink>
             </nav>
             <a href="/sign#">
