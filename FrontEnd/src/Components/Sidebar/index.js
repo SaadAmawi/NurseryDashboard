@@ -70,7 +70,7 @@ function Sidebar({ onSidebarChange }) {
                 <FontAwesomeIcon icon={faCalendarWeek}  /> 
                 </NavLink>
             </nav>
-            <a href="/sign#">
+            <a href="/login">
             <button className="signOut">
             &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faRightFromBracket} />
             </button>

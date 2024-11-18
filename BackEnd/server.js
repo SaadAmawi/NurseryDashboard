@@ -5,7 +5,8 @@ const { Client } = require('pg'); // PostgreSQL client
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { verifyToken } = require('./middleware/authMiddleware');
-
+const bodyParser = require('body-parser');
+const cors = require('cors');
 
 // Load environment variables from .env file
 dotenv.config();
@@ -16,7 +17,8 @@ const port = 3000; // Port to run the server on
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-
+app.use(bodyParser.json());
+app.use(cors());
 // Set up the PostgreSQL database connection
 const dbClient = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -80,28 +82,7 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// // Middleware to verify JWT token
-// const verifyToken = (req, res, next) => {
-//     const authHeader = req.headers['authorization'];
-//     console.log('Authorization Header:', authHeader);
-  
-//     if (!authHeader) {
-//       return res.status(403).send('No token provided');
-//     }
-  
-//     const token = authHeader.split(' ')[1];
-//     console.log('Extracted Token:', token);
-  
-//     jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
-//       if (err) {
-//         console.error('JWT Verification Error:', err);
-//         return res.status(500).send('Failed to authenticate token');
-//       }
-//       req.userId = decoded.id;
-//       req.userRole = decoded.role;
-//       next();
-//     });
-//   };
+
 
 // Middleware to check if the user has the required role
 const checkRole = (role) => {

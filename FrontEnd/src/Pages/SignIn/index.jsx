@@ -1,15 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,Nav } from "react";
 import Image from "../../assets/images/image.png";
 import Logo from "../../assets/images/knowledgeroomlogo.png";
 import GoogleSvg from "../../assets/images/icons8-google.svg";
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
 import './signin.css'
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
   const [ showPassword, setShowPassword ] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [token, setToken] = useState('');
+  const navigate = useNavigate();
 
+  const handleLogin = async (e) => {
+      e.preventDefault();
+      const response = await fetch('http://localhost:3000/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+      if (response.ok) {
+          alert(data.token);
+          setToken(data.token);
+          navigate('/'); 
+          console.log(token)
+        } else {
+          alert(data.message);
+      }
+  };
 
   return (
     <div className="login-main">
@@ -24,10 +49,10 @@ const Login = () => {
           <div className="login-center">
             <h2>Welcome back!</h2>
             <p>Please enter your details</p>
-            <form>
-              <input type="email" placeholder="Email" />
+            <form onSubmit={handleLogin}>
+              <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
               <div className="pass-input-div">
-                <input type={showPassword ? "text" : "password"} placeholder="Password" />
+                <input type={showPassword ? "text" : "password"} placeholder="Password" onChange={(e) => setPassword(e.target.value)}/>
                 {showPassword ? <FaEyeSlash onClick={() => {setShowPassword(!showPassword)}} /> : <FaEye onClick={() => {setShowPassword(!showPassword)}} />}
                 
               </div>
@@ -45,7 +70,7 @@ const Login = () => {
               </div>
               <div className="login-center-buttons">
                 <a href="/">
-                <button type="button" >Log In</button>
+                <button type="submit" >Log In</button>
                 </a>
                 <button type="button" style={{backgroundColor:"lightgrey"}}>
                   <img src={GoogleSvg} alt="" />
@@ -56,7 +81,7 @@ const Login = () => {
           </div>
 
           <p className="login-bottom-p">
-            Don't have an account? <a href="/signup">Sign Up</a>
+            Don't have an account? <a href="/register">Sign Up</a>
           </p>
         </div>
       </div>
