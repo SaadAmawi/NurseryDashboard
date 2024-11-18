@@ -5,12 +5,31 @@ import GoogleSvg from "../../assets/images/icons8-google.svg";
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
 import './signup.scss'
-
+import { useNavigate } from 'react-router-dom';
+  
 
 const SignUp = () => {
   const [ showPassword, setShowPassword ] = useState(false);
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    const response = await fetch('http://localhost:3000/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ username, email, password, role: 'teacher' }),
+    });
+    const data = await response.json();
+    if(response.ok){
+      navigate('/login');
+    }else{
+      alert(data.message);}
+    }
   return (
     <div className="login-main">
       <div className="login-left-su">
@@ -21,11 +40,11 @@ const SignUp = () => {
           <div className="login-center">
             <h2>Welcome back!</h2>
             <p>Please enter your details</p>
-            <form>
-              <input type="text" placeholder="Full Name" />
-              <input type="email" placeholder="Email" />
+            <form onSubmit={handleSignUp}>
+              <input type="text" placeholder="Full Name" onChange={(e) => setUsername(e.target.value)} />
+              <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
               <div className="pass-input-div">
-                <input type={showPassword ? "text" : "password"} placeholder="Password" />
+                <input type={showPassword ? "text" : "password"} placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>
                 {showPassword ? <FaEyeSlash onClick={() => {setShowPassword(!showPassword)}} /> : <FaEye onClick={() => {setShowPassword(!showPassword)}} />}
                 
               </div>
@@ -43,7 +62,7 @@ const SignUp = () => {
               </div>
               <div className="login-center-buttons">
                 <a href="/">
-                <button type="button" >Sign Up</button>
+                <button type="submit" >Sign Up</button>
                 </a>
                 <button type="button" style={{backgroundColor:"lightgrey"}}>
                   <img src={GoogleSvg} alt="" />
@@ -54,7 +73,7 @@ const SignUp = () => {
           </div>
 
           <p className="login-bottom-p">
-            Already have an account? <a href="sign#">Sign In</a>
+            Already have an account? <a href="login">Sign In</a>
           </p>
         </div>
       </div>
