@@ -1,6 +1,33 @@
-.main{
-    height:92vh;
-    width: 100%;
-    background-color: rgba(240,242,245,255);
+
+
+// .dashboard{
+//     width: 100%;
+//     height: 10vh;
+//     animation: fadeIn 1s 1s backwards;
+//     padding-left: 400px;
+//     &.collapsed {
+//         width: 80%;
+//         padding-left: 300px;
+       
+//     }
     
+// }
+
+.first{
+    display: flex;
+    align-items: center;
+    
+}
+.second{
+    display: block;
+    width:200px;
+     text-align:"center";
+     
+}
+.userPic{
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+    border: 2px solid rgb(54, 78, 139);
 }
