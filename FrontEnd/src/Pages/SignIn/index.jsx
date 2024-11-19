@@ -17,24 +17,31 @@ const Login = () => {
 
   const handleLogin = async (e) => {
       e.preventDefault();
-      const response = await fetch('http://localhost:3000/login', {
+      try {
+        const response = await fetch('http://localhost:3000/login', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-      if (response.ok) {
-          alert(data.token);
+        });
+  
+        // If the response is successful
+        const data = await response.json();
+  
+        if (response.ok) {
+          alert("Login successful! Token: " + data.token);
           setToken(data.token);
-          navigate('/'); 
-          console.log(token)
+          navigate('/'); // Navigate to the home page or dashboard
         } else {
-          alert(data.message);
+          // If the response status is not OK (e.g., 401 Unauthorized)
+          alert(data.response || "Error Logging in. Please check your email and password.");
+        }
+      } catch (error) {
+        // Catching network errors or other issues
+        alert("An error occurred while logging in: " + error.message);
       }
-  };
+    };
 
   return (
     <div className="login-main">
