@@ -30,9 +30,9 @@ const Login = () => {
         const data = await response.json();
   
         if (response.ok) {
-          alert("Login successful! Token: " + data.token);
+          // alert("Login successful! Token: " + data.token);
           setToken(data.token);
-          navigate('/'); // Navigate to the home page or dashboard
+         
         } else {
           // If the response status is not OK (e.g., 401 Unauthorized)
           alert(data.response || "Error Logging in. Please check your email and password.");
@@ -43,6 +43,34 @@ const Login = () => {
       }
     };
 
+
+   // Use useEffect to handle the redirection after token is set
+   useEffect(() => {
+    if (token) {
+      // Token is set, perform the redirect logic
+      handleRedirect(token);
+    }
+  }, [token]);  // Runs whenever token changes
+
+  const handleRedirect = async (userToken) => {
+    try {
+      const response = await fetch('http://localhost:3000/teacher-dashboard', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + userToken,
+        },
+      });
+      if (response.ok) {
+        navigate('/');  // Redirect to home page on success
+      } else {
+        alert("Error Logging in. Please check your email and password.");
+      }
+    } catch (error) {
+      alert("An error occurred while logging in: " + error.message);
+      console.log("An error occurred while logging in: " + error.message);
+    }
+  };
   return (
     <div className="login-main">
       <div className="login-left">

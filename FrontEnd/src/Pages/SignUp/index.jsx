@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
   const [ showPassword, setShowPassword ] = useState(false);
-  const [username, setUsername] = useState('');
+  const [fullname, setfullname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const SignUp = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, email, password, role: 'teacher' }),
+      body: JSON.stringify({ fullname, email, password, role: 'teacher' }),
     });
     const data = await response.json();
     if(response.ok){
@@ -41,7 +41,7 @@ const SignUp = () => {
             <h2>Welcome back!</h2>
             <p>Please enter your details</p>
             <form onSubmit={handleSignUp}>
-              <input type="text" placeholder="Full Name" onChange={(e) => setUsername(e.target.value)} />
+              <input type="text" placeholder="Full Name" onChange={(e) => setfullname(e.target.value)} />
               <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)}/>
               <div className="pass-input-div">
                 <input type={showPassword ? "text" : "password"} placeholder="Password" onChange={(e)=>setPassword(e.target.value)}/>

@@ -35,15 +35,15 @@ app.get('/', (req, res) => {
 
 // User registration route
 app.post('/register', async (req, res) => {
-  const { username, email, password, role } = req.body;
+  const { fullname, email, password, role } = req.body;
   try {
     // Hash the password before saving
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert user into PostgreSQL database
     const result = await dbClient.query(
-      'INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *',
-      [username, email, hashedPassword, role]
+      'INSERT INTO users (fullname, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *',
+      [fullname, email, hashedPassword, role]
     );
     res.status(201).json({
       message: 'User registered successfully',
@@ -78,7 +78,6 @@ app.post('/login', async (req, res) => {
     res.json({ token });
   } catch (err) {
     console.error('Error logging in user:', err);
-    alert('Error logging in user:', err);
     res.status(500).send('Internal Server Error');
   }
 });
@@ -94,6 +93,24 @@ const checkRole = (role) => {
     next();
   };
 };
+
+app.post('/newStudent', async (req, res) => {
+  const { name, parent_id, birthdate } = req.body;
+  try {
+    // Insert user into PostgreSQL database
+    const result = await dbClient.query(
+      'INSERT INTO students (name, parent_id, birthdate) VALUES ($1, $2, $3) RETURNING *',
+      [name, parent_id, birthdate]
+    );
+    res.status(201).json({
+      message: 'Student registered successfully',
+      user: result.rows[0],
+    });
+  } catch (err) {
+    console.error('Error registering user:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
 
 // Protected route for teachers
 app.get('/teacher-dashboard', verifyToken, checkRole('teacher'), (req, res) => {
