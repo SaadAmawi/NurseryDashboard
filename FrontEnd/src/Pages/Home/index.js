@@ -4,15 +4,6 @@ import './index.scss'
 import TopBar from '../../Components/Topbar'
 import Loader from 'react-loaders'
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import EmailIcon from "@mui/icons-material/Email";
-import QuizIcon from '@mui/icons-material/Quiz';
-import SsidChartIcon from '@mui/icons-material/SsidChart';
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import CakeIcon from '@mui/icons-material/Cake';
-import TrafficIcon from "@mui/icons-material/Traffic";
-import Header from "../../Components/Header";
-import StatBox from "../../Components/StatBox";
 import ProgressCircle from "../../Components/ProgressCircle";
 import {BarChart} from "@mui/x-charts"
 import { Box, Button, IconButton, Typography, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, } from "@mui/material";
