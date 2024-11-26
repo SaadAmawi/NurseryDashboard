@@ -22,16 +22,11 @@ exports.register = async (req, res) => {
 // User login and token generation
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-
-  // Find the user by email
   const user = await User.findOne({ where: { email } });
-
   // If no user found or password does not match
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).send({ message: 'Invalid email or password' });
   }
-
-  // Generate JWT token with user id and role (role is now from the users table)
   const token = jwt.sign({ id: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
   // Send response with the generated token
