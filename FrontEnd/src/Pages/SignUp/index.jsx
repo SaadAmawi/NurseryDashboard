@@ -4,7 +4,7 @@ import Logo from "../../assets/images/knowledgeroomlogo.png";
 import GoogleSvg from "../../assets/images/icons8-google.svg";
 import { FaEye } from "react-icons/fa6";
 import { FaEyeSlash } from "react-icons/fa6";
-import './signup.scss'
+import './signup.css'
 import { useNavigate } from 'react-router-dom';
   
 

@@ -30,3 +30,66 @@
         color: white;
     }
 }
+
+.Dialog{
+    // background-image: url("../../assets/images/bg.jpeg");
+    // background-repeat: no-repeat;
+    // background-size:contain;
+    // background-position: center;
+    width: 90%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the content vertically */
+    align-items: center;     /* Center the content horizontally */
+    padding: 40px;
+    background-color: #ffffff;
+    
+}
+
+
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Create two equal columns */
+    gap: 60px; /* Add space between the columns */
+    width: 100%;
+    max-width: 80%;
+    margin: auto;
+    justify-items: center;  /* Centers the items horizontally */
+    align-items: center;    /* Centers the items vertically */
+    text-align: center; 
+    .last{
+        grid-column: span 2;
+        
+    }
+    .submiz{
+        grid-column: span 2;
+        justify-content: center;
+        width: 80%;
+        height: 60px;
+        margin-top: 20px;
+        align-self: center;
+        background-color: rgb(205, 255, 198);
+        border-radius: 30px;
+        transition: all 0.3s ease-in-out;
+        &:hover{
+            transform: scale(1.04);
+            background-color: rgb(178, 255, 167);
+        }
+    }
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+

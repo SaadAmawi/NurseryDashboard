@@ -3,19 +3,52 @@ import Sidebar from '../../Components/Sidebar'
 import './index.scss'
 import TopBar from '../../Components/Topbar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import Loader from 'react-loaders';
 import { Box, Button, IconButton, Typography, useTheme, Dialog, DialogTitle, DialogContent, DialogActions, } from "@mui/material";
 import { DataGrid } from '@mui/x-data-grid';
 import{faUserPlus} from '@fortawesome/free-solid-svg-icons'
-import './index.scss';
-
+import { tokens } from "../../theme";
+import { createStudent } from '../../Services/studentServices'
 
 function Students(extendSidebar) {
     const [sidebarExtended, setSidebarExtended] = useState(false);
+    const [openDialog, setOpenDialog] = useState(false);
+    const [fullname, setFullname] = useState('');
+    const [studentfullname, setStudentFullname] = useState('');
+    const [birth_date, setBirthDate] = useState('');
+    const [parent_email, setParentEmail] = useState('');
+    const [gender, setGender] = useState('');
+    const [nationality, setNationality] = useState('');
+    const [parent_phonenumber, setParentPhoneNumber] = useState('');
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode)
+    
+    const handleCloseDialog = () => {
+      setOpenDialog(false);
+    };
+    
     const handleSidebarChange = (isExtended) => {
-        setSidebarExtended(isExtended);
-      };
+      setSidebarExtended(isExtended);
+    };
+    
+    const handleSubmit = async(e) => {
+      e.preventDefault()
+      const studentData = {
+        fullname,
+        studentfullname,
+        birth_date,
+        parent_email,
+        gender,
+        nationality,
+        parent_phonenumber
+      }
+      try {
+        const student = await createStudent(studentData);
+        console.log('Student created:', student);
+      } catch (error) {
+        console.log('Error creating student:', error);
+      }
+    }
     
 
       const columns = [
@@ -41,9 +74,9 @@ function Students(extendSidebar) {
    <Sidebar onSidebarChange={handleSidebarChange} />
    <TopBar extendSidebar={sidebarExtended} />
    <div className={`patient-container${!sidebarExtended ? 'collapsed' : ''}`}>
-    <button className='studentButton'>Add Student &nbsp; &nbsp;<FontAwesomeIcon icon={faUserPlus}  /></button>
+    <button className='studentButton' onClick={() => setOpenDialog(true)}>Add Student &nbsp; &nbsp;<FontAwesomeIcon icon={faUserPlus}  /></button>
    <Box className="box" >
-           
+
             <DataGrid
             className='grid'
             sx={{ border:"2px solid black", m: 3, borderRadius:"2px",}}
@@ -62,6 +95,30 @@ function Students(extendSidebar) {
               }
             }}
           />
+                <Dialog open={openDialog} onClose={handleCloseDialog}  sx={{
+                  '& .MuiDialog-paper': {
+                    width: '100%', // Full width on small screens
+                    maxWidth: '800px', // Max width on larger screens
+                    [theme.breakpoints.up('sm')]: {
+                      width: '90vw', // Relative width on screens that are small or larger
+                    },
+                  },
+                }}>
+                  <div className='Dialog'>
+                  <h1>Student Information</h1>
+                  <form onSubmit={handleSubmit}>
+                    <input placeholder='Parent Name' type="text" onChange={(e) => setFullname(e.target.value)} required></input>
+                    <input placeholder='Parent Email' type = "email" onChange={(e) => setParentEmail(e.target.value)} required></input>
+                    <input placeholder='Parent Phone Number' type= "text"className='last' onChange={(e) => setParentPhoneNumber(e.target.value)} required></input>
+                    <input placeholder='Student Name' type="text" onChange={(e) => setStudentFullname(e.target.value)} required></input>
+                    <input  type="date" onChange={(e) => setBirthDate(e.target.value)} required></input>
+                    <input placeholder='Student Gender' type="text" onChange={(e) => setGender(e.target.value)} required></input>
+                    <input placeholder='Student Nationality' type="text" onChange={(e) => setNationality(e.target.value)} required></input>
+                    <button type='submit' className="submiz">submit</button>
+                  </form>
+
+                  </div>
+          </Dialog>
           
         </Box>
       </div>

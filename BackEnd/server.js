@@ -9,7 +9,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 // Import controller methods
-const { register, login } = require('./controllers/authController'); // Adjust path if needed
+const { register, login, registerParent,createStudent } = require('./controllers/authController'); // Adjust path if needed
 
 // Load environment variables from .env file
 dotenv.config();
@@ -40,6 +40,8 @@ app.get('/', (req, res) => {
 // Use the imported controller methods in the routes
 app.post('/register', register);
 app.post('/login', login);
+app.post('/registerParent', registerParent);
+app.post('/createStudent', createStudent);
 
 // Protected route for teachers
 app.get('/teacher-dashboard', verifyToken, (req, res) => {
