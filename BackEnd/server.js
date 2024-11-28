@@ -10,6 +10,7 @@ const cors = require('cors');
 
 // Import controller methods
 const { register, login, registerParent,createStudent } = require('./controllers/authController'); // Adjust path if needed
+const { getAllStudents } = require('./controllers/studentController'); // Adjust path if needed
 
 // Load environment variables from .env file
 dotenv.config();
@@ -20,7 +21,7 @@ const port = 3000; // Port to run the server on
 
 // Middleware to parse JSON bodies
 app.use(express.json());
-app.use(bodyParser.json());
+
 app.use(cors());
 
 // Set up the PostgreSQL database connection
@@ -42,6 +43,7 @@ app.post('/register', register);
 app.post('/login', login);
 app.post('/registerParent', registerParent);
 app.post('/createStudent', createStudent);
+app.get('/getStudents', getAllStudents);
 
 // Protected route for teachers
 app.get('/teacher-dashboard', verifyToken, (req, res) => {

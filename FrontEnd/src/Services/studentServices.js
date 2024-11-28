@@ -23,3 +23,20 @@ export const createStudent = async (studentData) =>{
       throw error;
     }
   };
+
+
+export const getStudents = async () =>{
+  try{
+    const respone = await fetch('http://localhost:3000/getStudents',{
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+    });
+    const data = await respone.json();
+    return data;
+  }catch(error){
+    console.log("error retreiving student data", error);
+    throw error;
+  }
+}

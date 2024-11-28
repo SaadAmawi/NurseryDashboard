@@ -1,4 +1,4 @@
-import {useState,React} from 'react'
+import {useState,React,useEffect} from 'react'
 import Sidebar from '../../Components/Sidebar'
 import './index.scss'
 import TopBar from '../../Components/Topbar'
@@ -8,7 +8,7 @@ import { Box, Button, IconButton, Typography, useTheme, Dialog, DialogTitle, Dia
 import { DataGrid } from '@mui/x-data-grid';
 import{faUserPlus} from '@fortawesome/free-solid-svg-icons'
 import { tokens } from "../../theme";
-import { createStudent } from '../../Services/studentServices'
+import { createStudent, getStudents } from '../../Services/studentServices'
 
 function Students(extendSidebar) {
     const [sidebarExtended, setSidebarExtended] = useState(false);
@@ -20,6 +20,7 @@ function Students(extendSidebar) {
     const [gender, setGender] = useState('');
     const [nationality, setNationality] = useState('');
     const [parent_phonenumber, setParentPhoneNumber] = useState('');
+    const [studentData, setStudentData] = useState('');
     const theme = useTheme();
     const colors = tokens(theme.palette.mode)
     
@@ -49,20 +50,48 @@ function Students(extendSidebar) {
         console.log('Error creating student:', error);
       }
     }
+
+    useEffect(() => {
+      const fetchStudentData = async () => {
+        try {
+          const response = await getStudents(); // Fetch data from your API
+          console.log("Raw Response:", response); // Log the raw API response
+    
+          // Access the 'students' array from the response
+          const studentsArray = response.students;
+    
+          // Format the studentsArray for DataGrid
+          const formattedData = studentsArray.map((student) => ({
+            id: student.id, // Use the actual student ID from the API
+            studentfullname: student.fullname,
+            birth_date: student.birth_date,
+            parent_email: student.parent_email,
+            gender: student.gender,
+            nationality: student.nationality,
+            parent_phonenumber: student.parent_phonenumber,
+          }));
+    
+          console.log("Formatted Data:", formattedData); // Log the formatted data
+          setStudentData(formattedData); // Update state with the formatted data
+        } catch (error) {
+          console.error("Error fetching student data:", error);
+        }
+      };
+    
+      fetchStudentData();
+    }, [handleSubmit]);
+    
+    
     
 
       const columns = [
         {field: "id", headerName:"Student ID",width:100,headerAlign:'start',align:"center",cellClassName:"id-col",headerAlign:"center",headerClassName:"id-head"},
-        {field:"name", headerName:"Student Name",flex:1 ,width:250,cellClassName:"id-col",headerClassName:"id-head",headerAlign:"center",align:"left",
-        renderCell: (params) => (
-          <>
-          <img src={params.row.imageLink} alt="Patient" style={{ width: '40px', height: '40px', borderRadius:"50%",marginRight:"30px" }} />
-          <Typography>{params.row.name}</Typography></>)},
-        {field: "email", headerName:"Student Email",width:250,headerAlign:'start',align:"center",cellClassName:"id-col",headerAlign:"center",headerClassName:"id-head"},
-        {field:"age", headerName:"Student DOB",width:100,type:"number",align:"center",headerAlign:"center",cellClassName:"id-col",headerClassName:"id-head"},
-        {field:"phone", headerName:"Parent Phone Number",width:200,headerAlign:"center",align:"center",cellClassName:"id-col",headerClassName:"id-head"},
-        {field:"education", headerName:"Parent Name",width:150,headerAlign:"center",align:"center",cellClassName:"id-col",headerClassName:"id-head"},
-        {field:"Test", headerName:"Parent Email",flex:1 ,width:250,cellClassName:"id-col",headerClassName:"id-head", align:"center",headerAlign:"center"},
+        {field:"studentfullname", headerName:"Student Name",width:300,cellClassName:"id-col",headerClassName:"id-head",headerAlign:"center",align:"center"},
+        {field: "birth_date", headerName:"Student Birth Date",width:250,headerAlign:'start',align:"center",cellClassName:"id-col",headerAlign:"center",headerClassName:"id-head"},
+        {field:"gender", headerName:"Student Gender",width:100,headerAlign:"center",align:"center",cellClassName:"id-col",headerClassName:"id-head"},
+        {field:"nationality", headerName:"Student Nationality",width:200,headerAlign:"center",align:"center",cellClassName:"id-col",headerClassName:"id-head"},
+        {field:"parent_email", headerName:"Parent Email",width:200,type:"number",align:"center",headerAlign:"center",cellClassName:"id-col",headerClassName:"id-head"},
+        {field:"parent_phonenumber", headerName:"Parent Phone Number",flex:1 ,width:250,cellClassName:"id-col",headerClassName:"id-head", align:"center",headerAlign:"center"},
        
      
         
@@ -77,24 +106,22 @@ function Students(extendSidebar) {
     <button className='studentButton' onClick={() => setOpenDialog(true)}>Add Student &nbsp; &nbsp;<FontAwesomeIcon icon={faUserPlus}  /></button>
    <Box className="box" >
 
-            <DataGrid
-            className='grid'
-            sx={{ border:"2px solid black", m: 3, borderRadius:"2px",}}
-            
-            columns={columns}
-            pageSizeOptions={[10]}
-            checkboxSelection
-            disableRowSelectionOnClick
-            // onRowClick={handleRowClick}
-            getRowClassName={(params) => {
-              console.log(params.row.id);
-              if (params.row.id % 2 === 0) {
-                return "even-row" ; // Light gray for even rows
-              } else {
-                return "odd-row" ; // White for odd rows
-              }
-            }}
-          />
+   <DataGrid
+  className="grid"
+  sx={{ border: "2px solid black", m: 3, borderRadius: "2px" }}
+  rows={studentData || []}
+  columns={columns}
+  pageSizeOptions={[10]}
+  checkboxSelection
+  disableRowSelectionOnClick
+  getRowClassName={(params) => {
+    if (params.row.id % 2 === 0) {
+      return "even-row"; // Light gray for even rows
+    } else {
+      return "odd-row"; // White for odd rows
+    }
+  }}
+/>
                 <Dialog open={openDialog} onClose={handleCloseDialog}  sx={{
                   '& .MuiDialog-paper': {
                     width: '100%', // Full width on small screens
@@ -107,14 +134,14 @@ function Students(extendSidebar) {
                   <div className='Dialog'>
                   <h1>Student Information</h1>
                   <form onSubmit={handleSubmit}>
-                    <input placeholder='Parent Name' type="text" onChange={(e) => setFullname(e.target.value)} required></input>
-                    <input placeholder='Parent Email' type = "email" onChange={(e) => setParentEmail(e.target.value)} required></input>
-                    <input placeholder='Parent Phone Number' type= "text"className='last' onChange={(e) => setParentPhoneNumber(e.target.value)} required></input>
-                    <input placeholder='Student Name' type="text" onChange={(e) => setStudentFullname(e.target.value)} required></input>
-                    <input  type="date" onChange={(e) => setBirthDate(e.target.value)} required></input>
-                    <input placeholder='Student Gender' type="text" onChange={(e) => setGender(e.target.value)} required></input>
-                    <input placeholder='Student Nationality' type="text" onChange={(e) => setNationality(e.target.value)} required></input>
-                    <button type='submit' className="submiz">submit</button>
+                    <input placeholder='Parent Name' type="text" onChange={(e) => setFullname(e.target.value)} required className='field'></input>
+                    <input placeholder='Parent Email' type = "email" onChange={(e) => setParentEmail(e.target.value)} required className='field'></input>
+                    <input placeholder='Parent Phone Number' type= "text"className='last' onChange={(e) => setParentPhoneNumber(e.target.value)} required ></input>
+                    <input placeholder='Student Name' type="text" onChange={(e) => setStudentFullname(e.target.value)} required className='field'></input>
+                    <input  type="date" onChange={(e) => setBirthDate(e.target.value)} required className='field'></input>
+                    <input placeholder='Student Gender' type="text" onChange={(e) => setGender(e.target.value)} required className='field'></input>
+                    <input placeholder='Student Nationality' type="text" onChange={(e) => setNationality(e.target.value)} required className='field'></input>
+                    <button type='submit' className="submiz" onClick={()=> handleCloseDialog()}>submit</button>
                   </form>
 
                   </div>
